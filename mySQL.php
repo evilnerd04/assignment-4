@@ -1,18 +1,60 @@
 <?php
+include "dbConnect.php";
 // database functions ************************************************
 
-function fInsertToDatabase() {
+$myDB=fConnectToDatabase();
+
+function fInsertToDatabase($asin, $title, $price) {
+    global $myDB;
   $sql = "INSERT INTO dvdtitles (asin, title, price) VALUES ('$asin', '$title', $price)";
-  // TODO: Fill in the rest of the fuction
+  $stmt= $myDB->prepare($sql);
+  $stmt->execute();
+
 }
 
-function fDeleteFromDatabase() {
-  $sql = "DELETE FROM tblCustomers WHERE CustID=$deleteID";
-  // TODO: Fill in the rest of the fuction
+function fDeleteFromDatabase($deleteID) {
+    global $myDB;
+  $sql = "DELETE FROM dvdtitles WHERE dvdtitles.asin='$deleteID'";
+  $stmt= $myDB->prepare($sql);
+  $stmt->execute();
+
 }
 
 function fListFromDatabase() {
-  $sql = 'SELECT custID, nameF, nameL FROM tblCustomers ORDER BY CustID';
-  // TODO: Fill in the rest of the fuction
+    global $myDB;
+  $sql = 'SELECT * FROM dvdtitles';
+  $stmt= $myDB->prepare($sql);
+    $stmt->execute();
+    while($row = $stmt->fetch()) {
+    print_r($row);
+    echo "<br>";
+    }
+}
+
+function fInsertToActorDatabase($fname, $lname) {
+    global $myDB;
+  $sql = "INSERT INTO dvdactors (fname, lname) VALUES ('$fname', '$lname')";
+  $stmt= $myDB->prepare($sql);
+  $stmt->execute();
+
+}
+
+function fDeleteFromActorDatabase($deleteID) {
+    global $myDB;
+  $sql = "DELETE FROM dvdactors WHERE actorID=$deleteID";
+  $stmt= $myDB->prepare($sql);
+  $stmt->execute();
+
+}
+
+function fListFromActorDatabase() {
+    global $myDB;
+  $sql = 'SELECT * FROM dvdactors';
+  $stmt=$myDB->prepare($sql);
+    $stmt->execute();
+    while($row = $stmt->fetch()) {
+    print_r($row);
+        echo "<br>";
+    }
 }
 ?>
